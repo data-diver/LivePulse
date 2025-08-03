@@ -5,6 +5,7 @@ import { ThumbsUp, User } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useUserId } from "@/hooks/use-user-id";
 
 interface QuestionCardProps {
   question: Question;
@@ -16,17 +17,24 @@ interface QuestionCardProps {
 export function QuestionCard({ question, showAdminControls, onApprove, onReject }: QuestionCardProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const userId = useUserId();
+
+  // Check if current user has already liked this question
+  const hasUserLiked = question.likedBy?.includes(userId) || false;
 
   const likeMutation = useMutation({
     mutationFn: async (id: string) => {
-      const response = await apiRequest("POST", `/api/questions/${id}/like`);
+      if (hasUserLiked) {
+        return question; // Don't make request if already liked
+      }
+      const response = await apiRequest("POST", `/api/questions/${id}/like`, { userId });
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/questions'] });
       queryClient.invalidateQueries({ queryKey: ['/api/questions/approved'] });
     },
-    onError: () => {
+    onError: (error: any) => {
       toast({
         title: "Error",
         description: "Failed to like question",
@@ -115,10 +123,14 @@ export function QuestionCard({ question, showAdminControls, onApprove, onReject 
                 variant="ghost"
                 size="sm"
                 onClick={() => likeMutation.mutate(question.id)}
-                disabled={likeMutation.isPending}
-                className="text-gray-400 hover:text-[var(--cyan-accent)] p-1"
+                disabled={likeMutation.isPending || hasUserLiked}
+                className={`p-1 ${
+                  hasUserLiked 
+                    ? "text-[var(--cyan-accent)] bg-[var(--cyan-accent)]/20" 
+                    : "text-gray-400 hover:text-[var(--cyan-accent)]"
+                }`}
               >
-                <ThumbsUp className="w-4 h-4" />
+                <ThumbsUp className={`w-4 h-4 ${hasUserLiked ? "fill-current" : ""}`} />
               </Button>
               <span className="text-sm">{question.likes || 0}</span>
             </>

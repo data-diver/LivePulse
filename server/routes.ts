@@ -122,7 +122,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/questions/:id/like", async (req, res) => {
     try {
       const { id } = req.params;
-      const question = await storage.likeQuestion(id);
+      const { userId } = req.body;
+      
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+      
+      const question = await storage.likeQuestion(id, userId);
       
       if (!question) {
         return res.status(404).json({ message: "Question not found" });

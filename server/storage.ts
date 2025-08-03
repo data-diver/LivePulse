@@ -6,7 +6,7 @@ export interface IStorage {
   getQuestion(id: string): Promise<Question | undefined>;
   createQuestion(question: InsertQuestion): Promise<Question>;
   updateQuestionStatus(id: string, status: "pending" | "approved" | "rejected"): Promise<Question | undefined>;
-  likeQuestion(id: string): Promise<Question | undefined>;
+  likeQuestion(id: string, userId: string): Promise<Question | undefined>;
   getQuestionsByStatus(status: "pending" | "approved" | "rejected"): Promise<Question[]>;
 }
 
@@ -36,6 +36,7 @@ export class MemStorage implements IStorage {
       author: insertQuestion.author || "Anonymous",
       status: "approved", // Auto-approve all questions
       likes: 0,
+      likedBy: [],
       createdAt: new Date(),
     };
     this.questions.set(id, question);
@@ -51,11 +52,21 @@ export class MemStorage implements IStorage {
     return updatedQuestion;
   }
 
-  async likeQuestion(id: string): Promise<Question | undefined> {
+  async likeQuestion(id: string, userId: string): Promise<Question | undefined> {
     const question = this.questions.get(id);
     if (!question) return undefined;
     
-    const updatedQuestion = { ...question, likes: (question.likes || 0) + 1 };
+    // Check if user has already liked this question
+    const likedBy = question.likedBy || [];
+    if (likedBy.includes(userId)) {
+      return question; // Return unchanged if already liked
+    }
+    
+    const updatedQuestion = { 
+      ...question, 
+      likes: (question.likes || 0) + 1,
+      likedBy: [...likedBy, userId]
+    };
     this.questions.set(id, updatedQuestion);
     return updatedQuestion;
   }

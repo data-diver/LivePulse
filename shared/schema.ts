@@ -9,6 +9,7 @@ export const questions = pgTable("questions", {
   author: text("author").default("Anonymous"),
   status: text("status").$type<"pending" | "approved" | "rejected">().default("pending"),
   likes: integer("likes").default(0),
+  likedBy: text("liked_by").array().default([]),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
