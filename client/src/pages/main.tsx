@@ -58,39 +58,34 @@ export default function MainPage() {
       <div className="relative z-10 flex h-[calc(100vh-88px)]">
         
         {/* Left Side - Fixed QR Code Section */}
-        <div className="w-1/3 min-w-[300px] max-w-[400px] flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-r border-[var(--cyan-accent)]/20 p-6 flex flex-col justify-center">
-          <div className="max-w-sm mx-auto w-full">
+        <div className="w-1/3 flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-r border-[var(--cyan-accent)]/20 p-8 flex flex-col justify-between">
+          <div></div> {/* Spacer */}
+          
+          <div className="text-center">
             {/* QR Code Display */}
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold mb-6">Join the Conversation</h2>
-              <div className="bg-white p-4 rounded-xl inline-block mb-4">
-                <QRCodeDisplay value={mobileUrl} size={180} />
-              </div>
-              <p className="text-sm text-gray-300">Scan to submit questions</p>
+            <h2 className="text-lg font-bold mb-4">Join the Conversation</h2>
+            <div className="bg-white p-3 rounded-lg inline-block mb-3">
+              <QRCodeDisplay value={mobileUrl} size={160} />
             </div>
             
-            {/* Instructions - Properly aligned */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--dark-teal)] font-bold text-sm">1</span>
-                </div>
-                <span className="text-sm">Scan QR code</span>
+            {/* Instructions */}
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center justify-start space-x-3">
+                <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm">1</span>
+                <span>Scan QR code</span>
               </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--dark-teal)] font-bold text-sm">2</span>
-                </div>
-                <span className="text-sm">Submit questions</span>
+              <div className="flex items-center justify-start space-x-3">
+                <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm">2</span>
+                <span>Submit questions</span>
               </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--dark-teal)] font-bold text-sm">3</span>
-                </div>
-                <span className="text-sm">See live updates</span>
+              <div className="flex items-center justify-start space-x-3">
+                <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm">3</span>
+                <span>See live updates</span>
               </div>
             </div>
           </div>
+          
+          <div></div> {/* Bottom spacer to prevent overlap with Live Connection */}
         </div>
 
         {/* Right Side - Scrollable Questions Section */}
