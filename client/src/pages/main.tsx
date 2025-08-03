@@ -68,18 +68,18 @@ export default function MainPage() {
               <QRCodeDisplay value={mobileUrl} size={160} />
             </div>
             
-            {/* Compact Instructions */}
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center justify-center space-x-2">
-                <span className="w-6 h-6 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-xs">1</span>
+            {/* Instructions */}
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center justify-start space-x-3">
+                <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm">1</span>
                 <span>Scan QR code</span>
               </div>
-              <div className="flex items-center justify-center space-x-2">
-                <span className="w-6 h-6 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-xs">2</span>
+              <div className="flex items-center justify-start space-x-3">
+                <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm">2</span>
                 <span>Submit questions</span>
               </div>
-              <div className="flex items-center justify-center space-x-2">
-                <span className="w-6 h-6 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-xs">3</span>
+              <div className="flex items-center justify-start space-x-3">
+                <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm">3</span>
                 <span>See live updates</span>
               </div>
             </div>
@@ -138,13 +138,7 @@ export default function MainPage() {
         </div>
       </div>
 
-      {/* Connection Status */}
-      <div className="fixed bottom-4 left-4 bg-[var(--deep-navy)]/90 backdrop-blur-sm rounded-lg px-4 py-2 border border-[var(--cyan-accent)]/20 z-50">
-        <div className="flex items-center space-x-2 text-sm">
-          <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
-          <span>{isConnected ? 'Live Connection' : 'Connecting...'}</span>
-        </div>
-      </div>
+
     </div>
   );
 }
