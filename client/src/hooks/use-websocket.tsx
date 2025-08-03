@@ -10,25 +10,35 @@ interface WebSocketMessage {
 export function useWebSocket() {
   const [isConnected, setIsConnected] = useState(false);
   const [participantCount, setParticipantCount] = useState(0);
+  const [retryCount, setRetryCount] = useState(0);
   const wsRef = useRef<WebSocket | null>(null);
   const queryClient = useQueryClient();
+  const maxRetries = 3;
 
   useEffect(() => {
-    // Clean up the host to remove any query parameters or tokens
-    const cleanHost = window.location.host.split('?')[0].split('#')[0];
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${cleanHost}/ws`;
+    // Simple approach: replace http/https with ws/wss in the current origin
+    const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const wsUrl = `${wsProtocol}//${window.location.host}/ws`;
     
     console.log('Connecting to WebSocket:', wsUrl);
-    console.log('Original location:', window.location.href);
+    console.log('Window location details:', {
+      protocol: window.location.protocol,
+      host: window.location.host,
+      hostname: window.location.hostname,
+      port: window.location.port,
+      href: window.location.href
+    });
     
     const connect = () => {
       try {
+        console.log('Attempting WebSocket connection to:', wsUrl);
         const ws = new WebSocket(wsUrl);
         wsRef.current = ws;
 
         ws.onopen = () => {
+          clearTimeout(connectionTimeout);
           setIsConnected(true);
+          setRetryCount(0); // Reset retry count on successful connection
           console.log('WebSocket connected successfully');
         };
 
@@ -65,10 +75,18 @@ export function useWebSocket() {
         };
 
         ws.onclose = () => {
+          clearTimeout(connectionTimeout);
           setIsConnected(false);
-          console.log('WebSocket disconnected, attempting to reconnect...');
-          // Attempt to reconnect after 3 seconds
-          setTimeout(connect, 3000);
+          console.log('WebSocket disconnected');
+          
+          // Only retry if we haven't exceeded max retries
+          if (retryCount < maxRetries) {
+            console.log(`Attempting to reconnect (${retryCount + 1}/${maxRetries})...`);
+            setRetryCount(prev => prev + 1);
+            setTimeout(connect, 3000);
+          } else {
+            console.warn('Max WebSocket retry attempts reached. Disabling real-time updates.');
+          }
         };
 
         ws.onerror = (error) => {
@@ -76,11 +94,25 @@ export function useWebSocket() {
           console.error('Failed to connect to:', wsUrl);
           setIsConnected(false);
         };
+
+        // Add a timeout to detect connection failures
+        const connectionTimeout = setTimeout(() => {
+          if (ws.readyState === WebSocket.CONNECTING) {
+            console.warn('WebSocket connection timeout, closing...');
+            ws.close();
+          }
+        }, 5000);
       } catch (error) {
         console.error('Failed to create WebSocket connection:', error);
         setIsConnected(false);
-        // Retry connection after 3 seconds
-        setTimeout(connect, 3000);
+        
+        if (retryCount < maxRetries) {
+          console.log(`WebSocket creation failed, retrying (${retryCount + 1}/${maxRetries})...`);
+          setRetryCount(prev => prev + 1);
+          setTimeout(connect, 3000);
+        } else {
+          console.warn('Max WebSocket retry attempts reached. Application will work without real-time updates.');
+        }
       }
     };
 
