@@ -35,6 +35,14 @@ export function useWebSocket() {
         const ws = new WebSocket(wsUrl);
         wsRef.current = ws;
 
+        // Add a timeout to detect connection failures
+        const connectionTimeout = setTimeout(() => {
+          if (ws.readyState === WebSocket.CONNECTING) {
+            console.warn('WebSocket connection timeout, closing...');
+            ws.close();
+          }
+        }, 5000);
+
         ws.onopen = () => {
           clearTimeout(connectionTimeout);
           setIsConnected(true);
@@ -94,14 +102,6 @@ export function useWebSocket() {
           console.error('Failed to connect to:', wsUrl);
           setIsConnected(false);
         };
-
-        // Add a timeout to detect connection failures
-        const connectionTimeout = setTimeout(() => {
-          if (ws.readyState === WebSocket.CONNECTING) {
-            console.warn('WebSocket connection timeout, closing...');
-            ws.close();
-          }
-        }, 5000);
       } catch (error) {
         console.error('Failed to create WebSocket connection:', error);
         setIsConnected(false);
