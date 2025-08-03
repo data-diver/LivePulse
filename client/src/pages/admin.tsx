@@ -231,7 +231,7 @@ export default function AdminPage() {
         </div>
 
         {/* Admin Management Tabs */}
-        <Tabs defaultValue="pending" className="space-y-4">
+        <Tabs defaultValue={pendingQuestions.length > 0 ? "pending" : "settings"} className="space-y-4">
           <TabsList className="bg-[var(--deep-navy)]/50 border border-[var(--cyan-accent)]/20">
             <TabsTrigger 
               value="pending" 
