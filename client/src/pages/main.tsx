@@ -88,8 +88,8 @@ export default function MainPage() {
             </div>
             <p className="text-xs text-gray-400 mb-4">Scan to submit questions</p>
             
-            {/* Instructions - Compact layout */}
-            <div className="space-y-3 text-sm">
+            {/* Instructions - Aligned with QR code left margin */}
+            <div className="space-y-3 text-sm w-[178px] mx-auto">
               <div className="flex items-center space-x-3">
                 <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">1</span>
                 <span>Scan QR code</span>
