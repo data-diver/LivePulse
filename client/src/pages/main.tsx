@@ -80,7 +80,7 @@ export default function MainPage() {
                     <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
                       <span className="text-[var(--dark-teal)] font-bold text-sm">2</span>
                     </div>
-                    <p className="text-sm">Submit your questions about AI development</p>
+                    <p className="text-sm">Submit your questions</p>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">

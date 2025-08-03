@@ -162,7 +162,7 @@ export default function MobilePage() {
       <main className="relative z-10 container mx-auto px-4 py-6 pt-4">
         {activeTab === 'submit' ? (
           <div className="bg-[var(--deep-navy)]/50 backdrop-blur-sm rounded-2xl p-6 border border-[var(--cyan-accent)]/20 max-w-2xl mx-auto">
-            <h3 className="text-lg font-semibold mb-6">Ask anything about AI development</h3>
+            <h3 className="text-lg font-semibold mb-6">Ask your questions</h3>
             
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -194,7 +194,7 @@ export default function MobilePage() {
                         <Textarea
                           {...field}
                           rows={4}
-                          placeholder="Ask anything about AI development, tools, best practices, or implementation..."
+                          placeholder="What would you like to know?"
                           className="bg-[var(--dark-teal)] border-[var(--cyan-accent)]/30 text-white placeholder-gray-400 focus:border-[var(--cyan-accent)] resize-none"
                         />
                       </FormControl>
@@ -223,15 +223,7 @@ export default function MobilePage() {
               </form>
             </Form>
 
-            <div className="mt-6 p-4 bg-[var(--cyan-accent)]/10 rounded-lg">
-              <p className="text-sm text-gray-300">
-                <strong>Tips for great questions:</strong><br />
-                • Be specific about your AI development challenges<br />
-                • Ask about tools, frameworks, or best practices<br />
-                • Questions about implementation details are welcome<br />
-                • Keep it relevant to AI development and learning
-              </p>
-            </div>
+
           </div>
         ) : (
           <div className="space-y-4">
