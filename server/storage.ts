@@ -9,6 +9,7 @@ export interface IStorage {
   likeQuestion(id: string, userId: string): Promise<Question | undefined>;
   getQuestionsByStatus(status: "pending" | "approved" | "rejected"): Promise<Question[]>;
   trackUser(userId: string): void;
+  removeUser(userId: string): void;
   getUniqueParticipantCount(): number;
 }
 
@@ -24,6 +25,10 @@ export class MemStorage implements IStorage {
   // Track unique user activity
   trackUser(userId: string): void {
     this.activeUsers.add(userId);
+  }
+
+  removeUser(userId: string): void {
+    this.activeUsers.delete(userId);
   }
 
   getUniqueParticipantCount(): number {

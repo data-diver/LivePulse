@@ -40,6 +40,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
             type: 'participant_count_updated',
             count: storage.getUniqueParticipantCount()
           });
+        } else if (message.type === 'request_participant_count') {
+          // Send current participant count to this client
+          ws.send(JSON.stringify({
+            type: 'participant_count_updated',
+            count: storage.getUniqueParticipantCount()
+          }));
         }
       } catch (error) {
         console.error('Error parsing WebSocket message:', error);
@@ -56,6 +62,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           userWs.delete(ws);
           if (userWs.size === 0) {
             userConnections.delete(userId);
+            storage.removeUser(userId);
             participantCountChanged = true;
           }
         }

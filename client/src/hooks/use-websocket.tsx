@@ -39,6 +39,11 @@ export function useWebSocket() {
             type: 'identify',
             userId: userId
           }));
+          
+          // Request current participant count
+          ws.send(JSON.stringify({
+            type: 'request_participant_count'
+          }));
         };
 
         ws.onmessage = (event) => {
