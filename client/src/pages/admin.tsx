@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWebSocket } from "@/hooks/use-websocket";
-import { Brain, Users, CheckCircle, Clock, X, ArrowLeft } from "lucide-react";
+import { Brain, Users, CheckCircle, Clock, X, ArrowLeft, Settings } from "lucide-react";
 import { Link } from "wouter";
 
 export default function AdminPage() {
@@ -59,9 +59,17 @@ export default function AdminPage() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-2 text-sm">
-              <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
-              <span>{isConnected ? 'Live Connection' : 'Disconnected'}</span>
+            <div className="flex items-center space-x-4">
+              <Link href="/admin/settings">
+                <Button variant="outline" size="sm" className="border-[var(--cyan-accent)]/30 text-[var(--cyan-accent)] hover:bg-[var(--cyan-accent)]/10">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Settings
+                </Button>
+              </Link>
+              <div className="flex items-center space-x-2 text-sm">
+                <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
+                <span>{isConnected ? 'Live Connection' : 'Disconnected'}</span>
+              </div>
             </div>
           </div>
         </div>

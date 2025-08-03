@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Question } from "@shared/schema";
+import { Question, EventSettings } from "@shared/schema";
 import { NetworkBackground } from "@/components/ui/network-background";
 import { QuestionCard } from "@/components/ui/question-card";
 import { QRCodeDisplay } from "@/components/ui/qr-code";
@@ -25,6 +25,10 @@ export default function MainPage() {
     queryKey: ['/api/stats'],
   });
 
+  const { data: settings } = useQuery<EventSettings>({
+    queryKey: ['/api/settings'],
+  });
+
   const mobileUrl = `${window.location.origin}/mobile`;
 
   return (
@@ -40,7 +44,7 @@ export default function MainPage() {
                 <Brain className="text-[var(--cyan-accent)] text-xl" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">Learn & Build with AI</h1>
+                <h1 className="text-xl font-bold">{settings?.eventName || "Learn & Build with AI"}</h1>
                 <p className="text-sm text-gray-300">Live Q&A Session</p>
               </div>
             </div>

@@ -34,6 +34,13 @@ Preferred communication style: Simple, everyday language.
 - **Session Infrastructure**: Ready for future authentication with express-session
 - **Access Control**: Admin routes accessible without authentication for simplicity
 
+## Admin Settings Management
+- **Event Customization**: Dynamic event name configuration for reusable platform
+- **Message Management**: Individual question deletion and bulk clear functionality
+- **Real-time Updates**: All changes broadcast instantly via WebSocket to all connected clients
+- **Data Persistence**: Event settings stored in memory (resets with each session)
+- **Admin Interface**: Dedicated settings page accessible from main admin panel
+
 ## Real-time Communication
 - **Technology**: WebSocket server using 'ws' library
 - **Architecture**: Single WebSocket endpoint (`/ws`) broadcasting to all connected clients
@@ -48,7 +55,11 @@ Preferred communication style: Simple, everyday language.
   - POST `/api/questions` - Submit new question
   - PATCH `/api/questions/:id/status` - Update question status
   - POST `/api/questions/:id/like` - Like a question
+  - DELETE `/api/questions/:id` - Delete specific question (admin)
+  - DELETE `/api/questions` - Delete all questions (admin)
   - GET `/api/stats` - System statistics
+  - GET `/api/settings` - Get event settings
+  - PATCH `/api/settings` - Update event settings
 
 ## Build and Development
 - **Development**: Vite dev server with HMR and TSX runtime

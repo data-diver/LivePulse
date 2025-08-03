@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import MainPage from "@/pages/main";
 import MobilePage from "@/pages/mobile";
 import AdminPage from "@/pages/admin";
+import AdminSettings from "@/pages/admin-settings";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={MainPage} />
       <Route path="/mobile" component={MobilePage} />
       <Route path="/admin" component={AdminPage} />
+      <Route path="/admin/settings" component={AdminSettings} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -4,9 +4,11 @@ import { Question } from "@shared/schema";
 import { useUserId } from "./use-user-id";
 
 interface WebSocketMessage {
-  type: 'new_question' | 'question_status_updated' | 'question_liked' | 'participant_count_updated';
+  type: 'new_question' | 'question_status_updated' | 'question_liked' | 'participant_count_updated' | 'event_name_updated' | 'question_deleted' | 'all_questions_deleted';
   question?: Question;
   count?: number;
+  eventName?: string;
+  questionId?: string;
 }
 
 export function useWebSocket() {
@@ -78,6 +80,27 @@ export function useWebSocket() {
                 if (typeof message.count === 'number') {
                   setParticipantCount(message.count);
                 }
+                break;
+                
+              case 'event_name_updated':
+                // Invalidate settings queries to refetch updated event name
+                queryClient.invalidateQueries({ queryKey: ['/api/settings'] });
+                break;
+                
+              case 'question_deleted':
+                // Invalidate all question-related queries
+                queryClient.invalidateQueries({ queryKey: ['/api/questions'] });
+                queryClient.invalidateQueries({ queryKey: ['/api/questions/approved'] });
+                queryClient.invalidateQueries({ queryKey: ['/api/questions/pending'] });
+                queryClient.invalidateQueries({ queryKey: ['/api/stats'] });
+                break;
+                
+              case 'all_questions_deleted':
+                // Invalidate all question-related queries
+                queryClient.invalidateQueries({ queryKey: ['/api/questions'] });
+                queryClient.invalidateQueries({ queryKey: ['/api/questions/approved'] });
+                queryClient.invalidateQueries({ queryKey: ['/api/questions/pending'] });
+                queryClient.invalidateQueries({ queryKey: ['/api/stats'] });
                 break;
             }
           } catch (error) {
