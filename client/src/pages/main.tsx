@@ -4,12 +4,12 @@ import { NetworkBackground } from "@/components/ui/network-background";
 import { QuestionCard } from "@/components/ui/question-card";
 import { QRCodeDisplay } from "@/components/ui/qr-code";
 import { Button } from "@/components/ui/button";
-import { usePolling } from "@/hooks/use-websocket";
+import { useWebSocket } from "@/hooks/use-websocket";
 import { Brain, Settings, RefreshCw, Users } from "lucide-react";
 import { Link } from "wouter";
 
 export default function MainPage() {
-  const { isConnected } = usePolling();
+  const { isConnected } = useWebSocket();
   
   const { data: questions = [], isLoading } = useQuery<Question[]>({
     queryKey: ['/api/questions/approved'],

@@ -6,12 +6,12 @@ import { QuestionCard } from "@/components/ui/question-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePolling } from "@/hooks/use-websocket";
+import { useWebSocket } from "@/hooks/use-websocket";
 import { Brain, Users, CheckCircle, Clock, X, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 
 export default function AdminPage() {
-  const { isConnected } = usePolling();
+  const { isConnected } = useWebSocket();
   
   const { data: stats } = useQuery<{
     totalQuestions: number;

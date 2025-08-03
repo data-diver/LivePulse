@@ -1,6 +1,6 @@
 # Overview
 
-This is a real-time Q&A application built for AI learning events matching the Ummah Academy flyer design. The system allows participants to submit questions via a mobile interface accessed through QR code scanning, while moderators can review and approve questions through an admin panel. Approved questions are displayed on a main presentation screen with live voting capabilities. The application features real-time updates using WebSockets with graceful degradation, ensuring all participants see live question submissions, approvals, and like counts.
+This is a real-time Q&A application built for AI learning events. The system allows participants to submit questions via a mobile interface, while moderators can review and approve questions through an admin panel. Approved questions are displayed on a main presentation screen with live voting capabilities. The application features real-time updates using WebSockets, ensuring all participants see live question submissions, approvals, and like counts.
 
 # User Preferences
 

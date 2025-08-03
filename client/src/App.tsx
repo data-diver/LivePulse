@@ -20,7 +20,6 @@ function Router() {
 }
 
 function App() {
-  // Clean application - no WebSocket errors (updated 2025-08-03)
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
