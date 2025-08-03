@@ -9,7 +9,7 @@ import { Brain, Settings, RefreshCw, Users } from "lucide-react";
 import { Link } from "wouter";
 
 export default function MainPage() {
-  const { isConnected } = useWebSocket();
+  const { isConnected, participantCount } = useWebSocket();
   
   const { data: questions = [], isLoading } = useQuery<Question[]>({
     queryKey: ['/api/questions/approved'],
@@ -47,7 +47,7 @@ export default function MainPage() {
             <div className="flex items-center space-x-4">
               <div className="hidden md:flex items-center space-x-2 text-sm">
                 <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
-                <span>{stats?.activeUsers || 0} participants</span>
+                <span>{participantCount || stats?.activeUsers || 0} participants</span>
               </div>
             </div>
           </div>

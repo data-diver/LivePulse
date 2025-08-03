@@ -34,6 +34,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           userConnections.get(message.userId)!.add(ws);
           
           console.log(`User ${message.userId} identified. Unique participants: ${storage.getUniqueParticipantCount()}`);
+          
+          // Broadcast updated participant count to all clients
+          broadcast({
+            type: 'participant_count_updated',
+            count: storage.getUniqueParticipantCount()
+          });
         }
       } catch (error) {
         console.error('Error parsing WebSocket message:', error);
@@ -44,16 +50,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       clients.delete(ws);
       
       // Remove this WebSocket from user connections
+      let participantCountChanged = false;
       userConnections.forEach((userWs, userId) => {
         if (userWs.has(ws)) {
           userWs.delete(ws);
           if (userWs.size === 0) {
             userConnections.delete(userId);
+            participantCountChanged = true;
           }
         }
       });
       
       console.log('Client disconnected. Total clients:', clients.size);
+      
+      // Broadcast updated participant count if a unique user disconnected
+      if (participantCountChanged) {
+        broadcast({
+          type: 'participant_count_updated',
+          count: storage.getUniqueParticipantCount()
+        });
+      }
     });
     
     ws.on('error', (error) => {

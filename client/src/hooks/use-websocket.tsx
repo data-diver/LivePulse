@@ -4,8 +4,9 @@ import { Question } from "@shared/schema";
 import { useUserId } from "./use-user-id";
 
 interface WebSocketMessage {
-  type: 'new_question' | 'question_status_updated' | 'question_liked';
-  question: Question;
+  type: 'new_question' | 'question_status_updated' | 'question_liked' | 'participant_count_updated';
+  question?: Question;
+  count?: number;
 }
 
 export function useWebSocket() {
@@ -65,6 +66,13 @@ export function useWebSocket() {
                 // Update specific question in cache if possible
                 queryClient.invalidateQueries({ queryKey: ['/api/questions'] });
                 queryClient.invalidateQueries({ queryKey: ['/api/questions/approved'] });
+                break;
+                
+              case 'participant_count_updated':
+                // Update participant count in real-time
+                if (typeof message.count === 'number') {
+                  setParticipantCount(message.count);
+                }
                 break;
             }
           } catch (error) {
