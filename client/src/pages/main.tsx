@@ -58,39 +58,34 @@ export default function MainPage() {
       <div className="relative z-10 flex h-[calc(100vh-88px)]">
         
         {/* Left Side - Fixed QR Code Section */}
-        <div className="w-1/3 flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-r border-[var(--cyan-accent)]/20 p-6 flex flex-col justify-center pb-20">
-          <div className="text-center space-y-6">
+        <div className="w-1/3 flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-r border-[var(--cyan-accent)]/20 p-8 flex flex-col justify-between">
+          <div></div> {/* Spacer */}
+          
+          <div className="text-center">
             {/* QR Code Display */}
-            <div>
-              <h2 className="text-xl font-bold mb-4">Join the Conversation</h2>
-              <div className="bg-white p-4 rounded-xl inline-block">
-                <QRCodeDisplay value={mobileUrl} size={180} />
-              </div>
-              <p className="text-sm text-gray-300 mt-3">Scan to submit questions</p>
+            <h2 className="text-lg font-bold mb-4">Join the Conversation</h2>
+            <div className="bg-white p-3 rounded-lg inline-block mb-3">
+              <QRCodeDisplay value={mobileUrl} size={160} />
             </div>
             
-            {/* Instructions - Compact */}
-            <div className="space-y-4 mt-6">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--dark-teal)] font-bold text-sm">1</span>
-                </div>
-                <p className="text-sm text-left">Scan the QR code with your phone camera</p>
+            {/* Compact Instructions */}
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center justify-center space-x-2">
+                <span className="w-6 h-6 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-xs">1</span>
+                <span>Scan QR code</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--dark-teal)] font-bold text-sm">2</span>
-                </div>
-                <p className="text-sm text-left">Submit your questions</p>
+              <div className="flex items-center justify-center space-x-2">
+                <span className="w-6 h-6 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-xs">2</span>
+                <span>Submit questions</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--dark-teal)] font-bold text-sm">3</span>
-                </div>
-                <p className="text-sm text-left">Watch them appear here in real-time</p>
+              <div className="flex items-center justify-center space-x-2">
+                <span className="w-6 h-6 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-xs">3</span>
+                <span>See live updates</span>
               </div>
             </div>
           </div>
+          
+          <div></div> {/* Bottom spacer to prevent overlap with Live Connection */}
         </div>
 
         {/* Right Side - Scrollable Questions Section */}
