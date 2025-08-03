@@ -68,8 +68,8 @@ export default function MainPage() {
               <QRCodeDisplay value={mobileUrl} size={160} />
             </div>
             
-            {/* Instructions */}
-            <div className="space-y-3 text-sm max-w-xs mx-auto">
+            {/* Instructions - Aligned with QR Code */}
+            <div className="space-y-3 text-sm w-[178px] mx-auto">
               <div className="flex items-center space-x-3">
                 <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">1</span>
                 <span>Scan QR code</span>
