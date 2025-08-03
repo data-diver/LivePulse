@@ -30,6 +30,7 @@ export default function AdminPage() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [eventName, setEventName] = useState("");
+  const [autoApprove, setAutoApprove] = useState(true);
   
   const { data: stats } = useQuery<{
     totalQuestions: number;
@@ -63,13 +64,12 @@ export default function AdminPage() {
       apiRequest('/api/settings', 'PATCH', settings),
     onSuccess: () => {
       toast({
-        title: "Settings updated",  
+        title: "Settings updated",
         description: "Event settings have been successfully changed.",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/settings'] });
     },
-    onError: (error) => {
-      console.error('Settings update error:', error);
+    onError: () => {
       toast({
         title: "Error",
         description: "Failed to update settings. Please try again.",
@@ -124,10 +124,8 @@ export default function AdminPage() {
   };
 
   const handleToggleAutoApprove = () => {
-    if (updateSettingsMutation.isPending) return; // Prevent multiple clicks
-    
-    const currentValue = settings?.autoApproveQuestions ?? false;
-    const newValue = !currentValue;
+    const newValue = !autoApprove;
+    setAutoApprove(newValue);
     updateSettingsMutation.mutate({ autoApproveQuestions: newValue });
   };
 
@@ -143,6 +141,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (settings && eventName === "") {
       setEventName(settings.eventName);
+      setAutoApprove(settings.autoApproveQuestions);
     }
   }, [settings, eventName]);
 
@@ -392,12 +391,12 @@ export default function AdminPage() {
                       onClick={handleToggleAutoApprove}
                       disabled={updateSettingsMutation.isPending}
                       className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--cyan-accent)] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
-                        (settings?.autoApproveQuestions ?? false) ? 'bg-[var(--cyan-accent)]' : 'bg-white/20'
+                        autoApprove ? 'bg-[var(--cyan-accent)]' : 'bg-white/20'
                       }`}
                     >
                       <span
                         className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200 ${
-                          (settings?.autoApproveQuestions ?? false) ? 'translate-x-5' : 'translate-x-0'
+                          autoApprove ? 'translate-x-5' : 'translate-x-0'
                         }`}
                       />
                     </button>
