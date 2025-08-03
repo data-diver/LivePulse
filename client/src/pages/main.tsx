@@ -49,6 +49,12 @@ export default function MainPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <Link href="/admin/settings">
+                <Button variant="ghost" size="sm" className="text-[var(--cyan-accent)] hover:bg-[var(--cyan-accent)]/10">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Admin Settings
+                </Button>
+              </Link>
               <div className="hidden md:flex items-center space-x-2 text-sm">
                 <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
                 <span>{participantCount || stats?.activeUsers || 0} participants</span>
