@@ -5,7 +5,7 @@ import { useWebSocket } from "@/hooks/use-websocket";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+// import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Trash2, ArrowLeft, Settings, AlertTriangle } from "lucide-react";
@@ -192,12 +192,20 @@ export default function AdminSettings() {
                       When enabled, new questions are automatically approved. When disabled, questions require manual approval.
                     </p>
                   </div>
-                  <Switch
+                  <button
                     id="autoApprove"
-                    checked={autoApprove}
-                    onCheckedChange={handleToggleAutoApprove}
+                    onClick={handleToggleAutoApprove}
                     disabled={updateSettingsMutation.isPending}
-                  />
+                    className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
+                      autoApprove ? 'bg-teal-600' : 'bg-white/20'
+                    }`}
+                  >
+                    <span
+                      className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200 ${
+                        autoApprove ? 'translate-x-5' : 'translate-x-0'
+                      }`}
+                    />
+                  </button>
                 </div>
               </div>
             </CardContent>
