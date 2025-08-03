@@ -58,33 +58,36 @@ export default function MainPage() {
       <div className="relative z-10 flex h-[calc(100vh-88px)]">
         
         {/* Left Side - Fixed QR Code Section */}
-        <div className="w-1/3 flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-r border-[var(--cyan-accent)]/20 p-6 flex flex-col justify-center">
-          <div className="text-center space-y-8">
+        <div className="w-1/3 flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-r border-[var(--cyan-accent)]/20 p-6 flex flex-col justify-center pb-20">
+          <div className="text-center space-y-6">
             {/* QR Code Display */}
             <div>
-              <h2 className="text-2xl font-bold mb-6">Join the Conversation</h2>
-              <QRCodeDisplay value={mobileUrl} size={200} />
+              <h2 className="text-xl font-bold mb-4">Join the Conversation</h2>
+              <div className="bg-white p-4 rounded-xl inline-block">
+                <QRCodeDisplay value={mobileUrl} size={180} />
+              </div>
+              <p className="text-sm text-gray-300 mt-3">Scan to submit questions</p>
             </div>
             
-            {/* Instructions - Detailed */}
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--dark-teal)] font-bold">1</span>
+            {/* Instructions - Compact */}
+            <div className="space-y-4 mt-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-[var(--dark-teal)] font-bold text-sm">1</span>
                 </div>
-                <p className="text-left">Scan the QR code with your phone camera</p>
+                <p className="text-sm text-left">Scan the QR code with your phone camera</p>
               </div>
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--dark-teal)] font-bold">2</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-[var(--dark-teal)] font-bold text-sm">2</span>
                 </div>
-                <p className="text-left">Submit your questions</p>
+                <p className="text-sm text-left">Submit your questions</p>
               </div>
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--dark-teal)] font-bold">3</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-[var(--dark-teal)] font-bold text-sm">3</span>
                 </div>
-                <p className="text-left">Watch them appear here in real-time</p>
+                <p className="text-sm text-left">Watch them appear here in real-time</p>
               </div>
             </div>
           </div>
