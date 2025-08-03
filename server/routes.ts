@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
-import { insertQuestionSchema } from "@shared/schema";
+import { insertQuestionSchema, insertEventSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -275,6 +275,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch stats" });
+    }
+  });
+
+  // Get event settings
+  app.get("/api/event-settings", async (req, res) => {
+    try {
+      const settings = await storage.getEventSettings();
+      res.json(settings);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch event settings" });
+    }
+  });
+
+  // Update event settings
+  app.put("/api/event-settings", async (req, res) => {
+    try {
+      const validatedData = insertEventSettingsSchema.parse(req.body);
+      const settings = await storage.updateEventSettings(validatedData);
+      
+      // Broadcast event settings update to all clients
+      broadcast({
+        type: 'event_settings_updated',
+        settings
+      });
+      
+      res.json(settings);
+    } catch (error) {
+      if (error instanceof Error && 'issues' in error) {
+        return res.status(400).json({ message: "Validation error", errors: error });
+      }
+      res.status(500).json({ message: "Failed to update event settings" });
+    }
+  });
+
+  // Clear all questions
+  app.delete("/api/questions", async (req, res) => {
+    try {
+      await storage.clearQuestions();
+      
+      // Broadcast question clear to all clients
+      broadcast({
+        type: 'questions_cleared'
+      });
+      
+      res.json({ message: "All questions cleared successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to clear questions" });
     }
   });
 

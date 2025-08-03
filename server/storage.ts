@@ -1,4 +1,4 @@
-import { type Question, type InsertQuestion } from "@shared/schema";
+import { type Question, type InsertQuestion, type EventSettings, type InsertEventSettings } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -8,20 +8,30 @@ export interface IStorage {
   updateQuestionStatus(id: string, status: "pending" | "approved" | "rejected"): Promise<Question | undefined>;
   likeQuestion(id: string, userId: string): Promise<Question | undefined>;
   getQuestionsByStatus(status: "pending" | "approved" | "rejected"): Promise<Question[]>;
+  clearQuestions(): Promise<void>;
   trackUser(userId: string): void;
   removeUser(userId: string): void;
   clearAllUsers(): void;
   syncActiveUsers(connectedUserIds: string[]): void;
   getUniqueParticipantCount(): number;
+  getEventSettings(): Promise<EventSettings>;
+  updateEventSettings(settings: InsertEventSettings): Promise<EventSettings>;
 }
 
 export class MemStorage implements IStorage {
   private questions: Map<string, Question>;
   private activeUsers: Set<string> = new Set(); // Track unique user IDs
+  private eventSettings: EventSettings;
   private nextId: number = 1;
 
   constructor() {
     this.questions = new Map();
+    this.eventSettings = {
+      id: "default",
+      title: "Learn & Build with AI",
+      subtitle: "Live Q&A Session",
+      updatedAt: new Date(),
+    };
   }
 
   // Track unique user activity
@@ -116,6 +126,23 @@ export class MemStorage implements IStorage {
     return Array.from(this.questions.values())
       .filter(q => q.status === status)
       .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+  }
+
+  async clearQuestions(): Promise<void> {
+    this.questions.clear();
+  }
+
+  async getEventSettings(): Promise<EventSettings> {
+    return this.eventSettings;
+  }
+
+  async updateEventSettings(settings: InsertEventSettings): Promise<EventSettings> {
+    this.eventSettings = {
+      ...this.eventSettings,
+      ...settings,
+      updatedAt: new Date(),
+    };
+    return this.eventSettings;
   }
 }
 

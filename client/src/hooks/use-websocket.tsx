@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Question } from "@shared/schema";
+import { Question, EventSettings } from "@shared/schema";
 import { useUserId } from "./use-user-id";
 
 interface WebSocketMessage {
-  type: 'new_question' | 'question_status_updated' | 'question_liked' | 'participant_count_updated';
+  type: 'new_question' | 'question_status_updated' | 'question_liked' | 'participant_count_updated' | 'event_settings_updated' | 'questions_cleared';
   question?: Question;
   count?: number;
+  settings?: EventSettings;
 }
 
 export function useWebSocket() {
@@ -78,6 +79,19 @@ export function useWebSocket() {
                 if (typeof message.count === 'number') {
                   setParticipantCount(message.count);
                 }
+                break;
+                
+              case 'event_settings_updated':
+                // Invalidate event settings query to refetch
+                queryClient.invalidateQueries({ queryKey: ['/api/event-settings'] });
+                break;
+                
+              case 'questions_cleared':
+                // Invalidate all question-related queries
+                queryClient.invalidateQueries({ queryKey: ['/api/questions'] });
+                queryClient.invalidateQueries({ queryKey: ['/api/questions/approved'] });
+                queryClient.invalidateQueries({ queryKey: ['/api/questions/pending'] });
+                queryClient.invalidateQueries({ queryKey: ['/api/stats'] });
                 break;
             }
           } catch (error) {

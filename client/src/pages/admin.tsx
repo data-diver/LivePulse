@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Question } from "@shared/schema";
+import { Question, EventSettings } from "@shared/schema";
 import { NetworkBackground } from "@/components/ui/network-background";
 import { QuestionCard } from "@/components/ui/question-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { EventSettingsDialog } from "@/components/ui/event-settings-dialog";
 import { useWebSocket } from "@/hooks/use-websocket";
-import { Brain, Users, CheckCircle, Clock, X, ArrowLeft } from "lucide-react";
+import { Brain, Users, CheckCircle, Clock, X, ArrowLeft, Settings } from "lucide-react";
 import { Link } from "wouter";
 
 export default function AdminPage() {
@@ -29,6 +30,10 @@ export default function AdminPage() {
 
   const { data: allQuestions = [], isLoading: allLoading } = useQuery<Question[]>({
     queryKey: ['/api/questions'],
+  });
+
+  const { data: eventSettings } = useQuery<EventSettings>({
+    queryKey: ['/api/event-settings'],
   });
 
   const approvedQuestions = allQuestions.filter(q => q.status === "approved");
@@ -55,13 +60,28 @@ export default function AdminPage() {
                 </div>
                 <div>
                   <h1 className="text-xl font-bold">Admin Panel</h1>
-                  <p className="text-sm text-gray-300">Question Management</p>
+                  <p className="text-sm text-gray-300" data-testid="text-event-title-admin">
+                    {eventSettings?.title || "Learn & Build with AI"} - Question Management
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-2 text-sm">
-              <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
-              <span>{isConnected ? 'Live Connection' : 'Disconnected'}</span>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 text-sm">
+                <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
+                <span>{isConnected ? 'Live Connection' : 'Disconnected'}</span>
+              </div>
+              <EventSettingsDialog>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-[var(--cyan-accent)] hover:text-[var(--light-cyan)] hover:bg-[var(--dark-teal)]/50"
+                  data-testid="button-admin-settings"
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  Event Settings
+                </Button>
+              </EventSettingsDialog>
             </div>
           </div>
         </div>

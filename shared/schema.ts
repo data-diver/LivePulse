@@ -13,6 +13,13 @@ export const questions = pgTable("questions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const eventSettings = pgTable("event_settings", {
+  id: varchar("id").primaryKey().default("default"),
+  title: text("title").default("Learn & Build with AI"),
+  subtitle: text("subtitle").default("Live Q&A Session"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const insertQuestionSchema = createInsertSchema(questions).pick({
   content: true,
   author: true,
@@ -21,5 +28,15 @@ export const insertQuestionSchema = createInsertSchema(questions).pick({
   author: z.string().optional(),
 });
 
+export const insertEventSettingsSchema = createInsertSchema(eventSettings).pick({
+  title: true,
+  subtitle: true,
+}).extend({
+  title: z.string().min(1, "Title is required").max(100, "Title must be less than 100 characters"),
+  subtitle: z.string().max(200, "Subtitle must be less than 200 characters").optional(),
+});
+
 export type InsertQuestion = z.infer<typeof insertQuestionSchema>;
 export type Question = typeof questions.$inferSelect;
+export type InsertEventSettings = z.infer<typeof insertEventSettingsSchema>;
+export type EventSettings = typeof eventSettings.$inferSelect;

@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { Question } from "@shared/schema";
+import { Question, EventSettings } from "@shared/schema";
 import { NetworkBackground } from "@/components/ui/network-background";
 import { QuestionCard } from "@/components/ui/question-card";
 import { QRCodeDisplay } from "@/components/ui/qr-code";
 import { Button } from "@/components/ui/button";
+import { EventSettingsDialog } from "@/components/ui/event-settings-dialog";
 import { useWebSocket } from "@/hooks/use-websocket";
 import { Brain, Settings, RefreshCw, Users } from "lucide-react";
 import { Link } from "wouter";
@@ -25,6 +26,10 @@ export default function MainPage() {
     queryKey: ['/api/stats'],
   });
 
+  const { data: eventSettings } = useQuery<EventSettings>({
+    queryKey: ['/api/event-settings'],
+  });
+
   const mobileUrl = `${window.location.origin}/mobile`;
 
   return (
@@ -40,14 +45,30 @@ export default function MainPage() {
                 <Brain className="text-[var(--cyan-accent)] text-xl" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">Learn & Build with AI</h1>
-                <p className="text-sm text-gray-300">Live Q&A Session</p>
+                <h1 className="text-xl font-bold" data-testid="text-event-title">
+                  {eventSettings?.title || "Learn & Build with AI"}
+                </h1>
+                <p className="text-sm text-gray-300" data-testid="text-event-subtitle">
+                  {eventSettings?.subtitle || "Live Q&A Session"}
+                </p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <div className="hidden md:flex items-center space-x-2 text-sm">
                 <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
-                <span>{participantCount || stats?.activeUsers || 0} participants</span>
+                <span data-testid="text-participant-count">
+                  {participantCount || stats?.activeUsers || 0} participants
+                </span>
+                <EventSettingsDialog>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-[var(--cyan-accent)] hover:text-[var(--light-cyan)] hover:bg-[var(--dark-teal)]/50 p-1"
+                    data-testid="button-settings"
+                  >
+                    <Settings className="w-4 h-4" />
+                  </Button>
+                </EventSettingsDialog>
               </div>
             </div>
           </div>
