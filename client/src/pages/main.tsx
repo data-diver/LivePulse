@@ -5,7 +5,7 @@ import { QuestionCard } from "@/components/ui/question-card";
 import { QRCodeDisplay } from "@/components/ui/qr-code";
 import { Button } from "@/components/ui/button";
 import { useWebSocket } from "@/hooks/use-websocket";
-import { Brain, RefreshCw, Users } from "lucide-react";
+import { Brain, Settings, RefreshCw, Users } from "lucide-react";
 import { Link } from "wouter";
 
 export default function MainPage() {
@@ -53,6 +53,11 @@ export default function MainPage() {
                 <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
                 <span>{participantCount || stats?.activeUsers || 0} participants</span>
               </div>
+              <Link href="/admin">
+                <Button variant="ghost" size="sm" className="text-[var(--cyan-accent)] hover:bg-[var(--cyan-accent)]/10 p-2">
+                  <Settings className="w-4 h-4" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
