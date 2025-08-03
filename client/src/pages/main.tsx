@@ -65,29 +65,28 @@ export default function MainPage() {
               <div className="text-center">
                 <h2 className="text-xl font-bold mb-4">Join the Conversation</h2>
                 <QRCodeDisplay value={mobileUrl} size={160} />
-                <p className="text-sm text-gray-300 mt-2">Scan to submit questions</p>
               </div>
               
-              {/* Instructions - Compact */}
+              {/* Instructions - Detailed */}
               <div className="flex-1 max-w-md">
-                <div className="grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center mx-auto mb-2">
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
                       <span className="text-[var(--dark-teal)] font-bold text-sm">1</span>
                     </div>
-                    <p className="text-xs">Scan QR code</p>
+                    <p className="text-sm">Scan the QR code with your phone camera</p>
                   </div>
-                  <div>
-                    <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center mx-auto mb-2">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
                       <span className="text-[var(--dark-teal)] font-bold text-sm">2</span>
                     </div>
-                    <p className="text-xs">Submit questions</p>
+                    <p className="text-sm">Submit your questions about AI development</p>
                   </div>
-                  <div>
-                    <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center mx-auto mb-2">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
                       <span className="text-[var(--dark-teal)] font-bold text-sm">3</span>
                     </div>
-                    <p className="text-xs">See live updates</p>
+                    <p className="text-sm">Watch them appear here in real-time</p>
                   </div>
                 </div>
               </div>
@@ -96,7 +95,7 @@ export default function MainPage() {
         </div>
 
         {/* Scrollable Questions Section */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto pb-20">
           <div className="container mx-auto px-4 py-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold">Live Questions</h2>
@@ -146,7 +145,7 @@ export default function MainPage() {
       </div>
 
       {/* Connection Status */}
-      <div className="fixed bottom-4 left-4 bg-[var(--deep-navy)]/90 backdrop-blur-sm rounded-lg px-4 py-2 border border-[var(--cyan-accent)]/20">
+      <div className="fixed bottom-4 left-4 bg-[var(--deep-navy)]/90 backdrop-blur-sm rounded-lg px-4 py-2 border border-[var(--cyan-accent)]/20 z-50">
         <div className="flex items-center space-x-2 text-sm">
           <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
           <span>{isConnected ? 'Live Connection' : 'Connecting...'}</span>
