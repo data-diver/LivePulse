@@ -43,10 +43,7 @@ export default function MobilePage() {
       form.reset();
       queryClient.invalidateQueries({ queryKey: ['/api/questions'] });
       queryClient.invalidateQueries({ queryKey: ['/api/questions/approved'] });
-      toast({
-        title: "Success!",
-        description: "Your question has been posted and is now live!",
-      });
+      // Removed toast notification since we have a dedicated success screen
     },
     onError: () => {
       toast({
@@ -132,7 +129,7 @@ export default function MobilePage() {
       </header>
 
       {/* Tab Navigation */}
-      <div className="relative z-10 bg-[var(--deep-navy)]/50 border-b border-[var(--cyan-accent)]/20">
+      <div className="relative z-10 bg-[var(--deep-navy)]/50 border-b border-[var(--cyan-accent)]/20 sticky top-[72px]">
         <div className="container mx-auto px-4">
           <div className="flex space-x-1">
             <button
@@ -162,7 +159,7 @@ export default function MobilePage() {
       </div>
 
       {/* Main Content */}
-      <main className="relative z-10 container mx-auto px-4 py-6">
+      <main className="relative z-10 container mx-auto px-4 py-6 pt-4">
         {activeTab === 'submit' ? (
           <div className="bg-[var(--deep-navy)]/50 backdrop-blur-sm rounded-2xl p-6 border border-[var(--cyan-accent)]/20 max-w-2xl mx-auto">
             <h3 className="text-lg font-semibold mb-6">Ask anything about AI development</h3>
