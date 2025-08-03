@@ -15,6 +15,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const clients = new Set<WebSocket>();
   const userConnections = new Map<string, Set<WebSocket>>(); // userId -> Set of WebSocket connections
   const socketToUser = new Map<WebSocket, string>(); // WebSocket -> userId mapping
+
+  // Sync storage with actual connected users every 30 seconds to prevent phantom participants
+  const syncInterval = setInterval(() => {
+    const actualConnectedUsers = Array.from(userConnections.keys());
+    storage.syncActiveUsers(actualConnectedUsers);
+    console.log(`Synced participants. Current count: ${storage.getUniqueParticipantCount()}`);
+    
+    // Broadcast updated count if needed
+    broadcast({
+      type: 'participant_count_updated',
+      count: storage.getUniqueParticipantCount()
+    });
+  }, 30000);
   
   wss.on('connection', (ws) => {
     clients.add(ws);
@@ -37,11 +50,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           console.log(`User ${message.userId} identified. Unique participants: ${storage.getUniqueParticipantCount()}`);
           
+          // Immediate sync to ensure storage matches reality
+          const actualConnectedUsers = Array.from(userConnections.keys());
+          storage.syncActiveUsers(actualConnectedUsers);
+          
           // Broadcast updated participant count to all clients
           broadcast({
             type: 'participant_count_updated',
             count: storage.getUniqueParticipantCount()
           });
+          
+          console.log(`User ${message.userId} identified. Synced participants: ${storage.getUniqueParticipantCount()}`);
         } else if (message.type === 'request_participant_count') {
           // Send current participant count to this client
           ws.send(JSON.stringify({
@@ -77,12 +96,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log('Client disconnected. Total clients:', clients.size);
       
-      // Broadcast updated participant count if a unique user disconnected
+      // Immediate sync after any disconnection to prevent phantoms
+      const actualConnectedUsers = Array.from(userConnections.keys());
+      storage.syncActiveUsers(actualConnectedUsers);
+      
+      // Broadcast updated participant count if a unique user disconnected or sync changed count
       if (participantCountChanged) {
         broadcast({
           type: 'participant_count_updated',
           count: storage.getUniqueParticipantCount()
         });
+        console.log(`User disconnected. Synced participants: ${storage.getUniqueParticipantCount()}`);
       }
     });
     

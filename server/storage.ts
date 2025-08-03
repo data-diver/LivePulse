@@ -10,6 +10,8 @@ export interface IStorage {
   getQuestionsByStatus(status: "pending" | "approved" | "rejected"): Promise<Question[]>;
   trackUser(userId: string): void;
   removeUser(userId: string): void;
+  clearAllUsers(): void;
+  syncActiveUsers(connectedUserIds: string[]): void;
   getUniqueParticipantCount(): number;
 }
 
@@ -29,6 +31,17 @@ export class MemStorage implements IStorage {
 
   removeUser(userId: string): void {
     this.activeUsers.delete(userId);
+  }
+
+  // Clean up all active users (useful for resetting state)
+  clearAllUsers(): void {
+    this.activeUsers.clear();
+  }
+
+  // Sync active users with actually connected users
+  syncActiveUsers(connectedUserIds: string[]): void {
+    this.activeUsers.clear();
+    connectedUserIds.forEach(userId => this.activeUsers.add(userId));
   }
 
   getUniqueParticipantCount(): number {
