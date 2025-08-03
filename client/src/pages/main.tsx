@@ -78,19 +78,18 @@ export default function MainPage() {
       {/* Main Content - Two Column Layout */}
       <div className="relative z-10 flex h-[calc(100vh-88px)]">
         
-        {/* Left Side - Fixed QR Code Section */}
-        <div className="w-1/3 flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-r border-[var(--cyan-accent)]/20 p-8 flex flex-col justify-between">
-          <div></div> {/* Spacer */}
-          
+        {/* Left Side - Compact QR Code Section */}
+        <div className="w-80 flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-r border-[var(--cyan-accent)]/20 p-6">
+          {/* QR Code Display - Aligned with top */}
           <div className="text-center">
-            {/* QR Code Display */}
             <h2 className="text-lg font-bold mb-4">Join the Conversation</h2>
-            <div className="bg-white p-3 rounded-lg inline-block mb-3">
+            <div className="bg-white p-3 rounded-lg inline-block mb-4">
               <QRCodeDisplay value={mobileUrl} size={160} />
             </div>
+            <p className="text-xs text-gray-400 mb-4">Scan to submit questions</p>
             
-            {/* Instructions - Aligned with QR Code */}
-            <div className="space-y-3 text-sm w-[178px] mx-auto">
+            {/* Instructions - Compact layout */}
+            <div className="space-y-3 text-sm">
               <div className="flex items-center space-x-3">
                 <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">1</span>
                 <span>Scan QR code</span>
@@ -105,8 +104,6 @@ export default function MainPage() {
               </div>
             </div>
           </div>
-          
-          <div></div> {/* Bottom spacer to prevent overlap with Live Connection */}
         </div>
 
         {/* Right Side - Scrollable Questions Section */}
