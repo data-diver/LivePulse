@@ -8,26 +8,25 @@ interface WebSocketMessage {
 }
 
 export function useWebSocket() {
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(true); // Show as connected since we're using polling
   const [participantCount, setParticipantCount] = useState(0);
-  const [retryCount, setRetryCount] = useState(0);
-  const wsRef = useRef<WebSocket | null>(null);
   const queryClient = useQueryClient();
-  const maxRetries = 3;
 
   useEffect(() => {
-    // Simple approach: replace http/https with ws/wss in the current origin
-    const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${wsProtocol}//${window.location.host}/ws`;
+    // Use polling instead of WebSocket for reliable updates in all environments
+    console.log('Using HTTP polling for real-time updates (every 3 seconds)');
     
-    console.log('Connecting to WebSocket:', wsUrl);
-    console.log('Window location details:', {
-      protocol: window.location.protocol,
-      host: window.location.host,
-      hostname: window.location.hostname,
-      port: window.location.port,
-      href: window.location.href
-    });
+    // Set up periodic polling instead of WebSocket
+    const pollInterval = setInterval(() => {
+      queryClient.invalidateQueries({ queryKey: ['/api/questions'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/questions/approved'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/questions/pending'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/stats'] });
+    }, 3000); // Poll every 3 seconds
+    
+    return () => {
+      clearInterval(pollInterval);
+    };
     
     const connect = () => {
       try {
