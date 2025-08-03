@@ -14,6 +14,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Store connected clients with user tracking
   const clients = new Set<WebSocket>();
   const userConnections = new Map<string, Set<WebSocket>>(); // userId -> Set of WebSocket connections
+  const socketToUser = new Map<WebSocket, string>(); // WebSocket -> userId mapping
   
   wss.on('connection', (ws) => {
     clients.add(ws);
@@ -32,6 +33,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             userConnections.set(message.userId, new Set());
           }
           userConnections.get(message.userId)!.add(ws);
+          socketToUser.set(ws, message.userId);
           
           console.log(`User ${message.userId} identified. Unique participants: ${storage.getUniqueParticipantCount()}`);
           
@@ -57,16 +59,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Remove this WebSocket from user connections
       let participantCountChanged = false;
-      userConnections.forEach((userWs, userId) => {
-        if (userWs.has(ws)) {
+      const userId = socketToUser.get(ws);
+      
+      if (userId) {
+        socketToUser.delete(ws);
+        const userWs = userConnections.get(userId);
+        if (userWs) {
           userWs.delete(ws);
           if (userWs.size === 0) {
             userConnections.delete(userId);
             storage.removeUser(userId);
             participantCountChanged = true;
+            console.log(`User ${userId} fully disconnected. Unique participants: ${storage.getUniqueParticipantCount()}`);
           }
         }
-      });
+      }
       
       console.log('Client disconnected. Total clients:', clients.size);
       
@@ -82,6 +89,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     ws.on('error', (error) => {
       console.error('WebSocket error:', error);
       clients.delete(ws);
+      
+      // Also clean up user tracking on error
+      const userId = socketToUser.get(ws);
+      if (userId) {
+        socketToUser.delete(ws);
+        const userWs = userConnections.get(userId);
+        if (userWs) {
+          userWs.delete(ws);
+          if (userWs.size === 0) {
+            userConnections.delete(userId);
+            storage.removeUser(userId);
+            broadcast({
+              type: 'participant_count_updated',
+              count: storage.getUniqueParticipantCount()
+            });
+          }
+        }
+      }
     });
   });
   
