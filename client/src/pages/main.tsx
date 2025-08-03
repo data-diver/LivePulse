@@ -83,12 +83,12 @@ export default function MainPage() {
           {/* QR Code Display - Aligned with top */}
           <div className="text-center">
             <h2 className="text-lg font-bold mb-4">Join the Conversation</h2>
-            <div className="bg-white p-3 rounded-lg inline-block mb-6">
-              <QRCodeDisplay value={mobileUrl} size={200} />
+            <div className="bg-white p-4 rounded-lg inline-block mb-6">
+              <QRCodeDisplay value={mobileUrl} size={240} />
             </div>
             
             {/* Instructions - Aligned with QR code left margin */}
-            <div className="space-y-3 text-sm w-[218px] mx-auto">
+            <div className="space-y-3 text-sm w-[248px] mx-auto">
               <div className="flex items-center space-x-3">
                 <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">1</span>
                 <span>Scan QR code</span>

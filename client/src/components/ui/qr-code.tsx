@@ -26,16 +26,11 @@ export function QRCodeDisplay({ value, size = 192 }: QRCodeProps) {
   }, [value, size]);
 
   return (
-    <div className="bg-white p-6 rounded-xl inline-block">
-      <canvas
-        ref={canvasRef}
-        width={size}
-        height={size}
-        className="block"
-      />
-      <div className="text-center mt-3 text-gray-600 text-sm">
-        Scan to submit questions
-      </div>
-    </div>
+    <canvas
+      ref={canvasRef}
+      width={size}
+      height={size}
+      className="block"
+    />
   );
 }
