@@ -58,15 +58,26 @@ export class MemStorage implements IStorage {
     
     // Check if user has already liked this question
     const likedBy = question.likedBy || [];
-    if (likedBy.includes(userId)) {
-      return question; // Return unchanged if already liked
+    const hasLiked = likedBy.includes(userId);
+    
+    let updatedQuestion: Question;
+    
+    if (hasLiked) {
+      // Unlike: remove user from likedBy and decrease likes
+      updatedQuestion = { 
+        ...question, 
+        likes: Math.max(0, (question.likes || 0) - 1),
+        likedBy: likedBy.filter(id => id !== userId)
+      };
+    } else {
+      // Like: add user to likedBy and increase likes
+      updatedQuestion = { 
+        ...question, 
+        likes: (question.likes || 0) + 1,
+        likedBy: [...likedBy, userId]
+      };
     }
     
-    const updatedQuestion = { 
-      ...question, 
-      likes: (question.likes || 0) + 1,
-      likedBy: [...likedBy, userId]
-    };
     this.questions.set(id, updatedQuestion);
     return updatedQuestion;
   }

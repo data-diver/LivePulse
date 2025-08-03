@@ -24,9 +24,6 @@ export function QuestionCard({ question, showAdminControls, onApprove, onReject 
 
   const likeMutation = useMutation({
     mutationFn: async (id: string) => {
-      if (hasUserLiked) {
-        return question; // Don't make request if already liked
-      }
       const response = await apiRequest("POST", `/api/questions/${id}/like`, { userId });
       return response.json();
     },
@@ -37,7 +34,7 @@ export function QuestionCard({ question, showAdminControls, onApprove, onReject 
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: "Failed to like question",
+        description: "Failed to update like",
         variant: "destructive"
       });
     }
@@ -123,10 +120,10 @@ export function QuestionCard({ question, showAdminControls, onApprove, onReject 
                 variant="ghost"
                 size="sm"
                 onClick={() => likeMutation.mutate(question.id)}
-                disabled={likeMutation.isPending || hasUserLiked}
+                disabled={likeMutation.isPending}
                 className={`p-1 ${
                   hasUserLiked 
-                    ? "text-[var(--cyan-accent)] bg-[var(--cyan-accent)]/20" 
+                    ? "text-[var(--cyan-accent)] bg-[var(--cyan-accent)]/20 hover:bg-[var(--cyan-accent)]/30" 
                     : "text-gray-400 hover:text-[var(--cyan-accent)]"
                 }`}
               >
@@ -140,26 +137,7 @@ export function QuestionCard({ question, showAdminControls, onApprove, onReject 
       
       <p className="text-gray-100 mb-4">{question.content}</p>
       
-      {showAdminControls && question.status === "pending" && (
-        <div className="flex space-x-2">
-          <Button
-            size="sm"
-            onClick={() => approveMutation.mutate(question.id)}
-            disabled={approveMutation.isPending}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            Approve
-          </Button>
-          <Button
-            size="sm"
-            variant="destructive"
-            onClick={() => rejectMutation.mutate(question.id)}
-            disabled={rejectMutation.isPending}
-          >
-            Reject
-          </Button>
-        </div>
-      )}
+      {/* Admin controls removed since questions are auto-approved */}
     </div>
   );
 }

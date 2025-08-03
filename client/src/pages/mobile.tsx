@@ -119,7 +119,7 @@ export default function MobilePage() {
                 <Brain className="text-[var(--cyan-accent)] text-xl" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">AI Learning Event</h1>
+                <h1 className="text-xl font-bold">Learn & Build with AI</h1>
                 <p className="text-sm text-gray-300">Mobile Q&A Interface</p>
               </div>
             </div>
