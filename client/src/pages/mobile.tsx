@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertQuestionSchema, type InsertQuestion, type Question, type EventSettings } from "@shared/schema";
+import { insertQuestionSchema, type InsertQuestion, type Question } from "@shared/schema";
 import { NetworkBackground } from "@/components/ui/network-background";
 import { QuestionCard } from "@/components/ui/question-card";
 import { Button } from "@/components/ui/button";
@@ -23,10 +23,6 @@ export default function MobilePage() {
 
   const { data: questions = [], isLoading } = useQuery<Question[]>({
     queryKey: ['/api/questions/approved'],
-  });
-
-  const { data: settings } = useQuery<EventSettings>({
-    queryKey: ['/api/settings'],
   });
 
   const form = useForm<InsertQuestion>({
@@ -120,7 +116,7 @@ export default function MobilePage() {
                 <Brain className="text-[var(--cyan-accent)] text-xl" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">{settings?.eventName || "Learn & Build with AI"}</h1>
+                <h1 className="text-xl font-bold">Learn & Build with AI</h1>
                 <p className="text-sm text-gray-300">Mobile Q&A Interface</p>
               </div>
             </div>

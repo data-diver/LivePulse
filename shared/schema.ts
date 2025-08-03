@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, boolean, integer, serial } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, boolean, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -21,20 +21,5 @@ export const insertQuestionSchema = createInsertSchema(questions).pick({
   author: z.string().optional(),
 });
 
-// Event settings schema
-export const eventSettings = pgTable("event_settings", {
-  id: serial("id").primaryKey(),
-  eventName: varchar("event_name", { length: 255 }).notNull().default("Learn & Build with AI"),
-  autoApproveQuestions: boolean("auto_approve_questions").notNull().default(true),
-  updatedAt: timestamp("updated_at").defaultNow().notNull()
-});
-
-export const insertEventSettingsSchema = createInsertSchema(eventSettings).omit({
-  id: true,
-  updatedAt: true
-});
-
 export type InsertQuestion = z.infer<typeof insertQuestionSchema>;
 export type Question = typeof questions.$inferSelect;
-export type EventSettings = typeof eventSettings.$inferSelect;
-export type InsertEventSettings = z.infer<typeof insertEventSettingsSchema>;

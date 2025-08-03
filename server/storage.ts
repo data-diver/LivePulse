@@ -1,4 +1,4 @@
-import { type Question, type InsertQuestion, type EventSettings, type InsertEventSettings } from "@shared/schema";
+import { type Question, type InsertQuestion } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -13,26 +13,15 @@ export interface IStorage {
   clearAllUsers(): void;
   syncActiveUsers(connectedUserIds: string[]): void;
   getUniqueParticipantCount(): number;
-  deleteQuestion(id: string): Promise<boolean>;
-  deleteAllQuestions(): Promise<boolean>;
-  getEventSettings(): Promise<EventSettings>;
-  updateEventSettings(settings: InsertEventSettings): Promise<EventSettings>;
 }
 
 export class MemStorage implements IStorage {
   private questions: Map<string, Question>;
   private activeUsers: Set<string> = new Set(); // Track unique user IDs
-  private eventSettings: EventSettings;
   private nextId: number = 1;
 
   constructor() {
     this.questions = new Map();
-    this.eventSettings = {
-      id: 1,
-      eventName: "Learn & Build with AI",
-      autoApproveQuestions: true,
-      updatedAt: new Date()
-    };
   }
 
   // Track unique user activity
@@ -75,7 +64,7 @@ export class MemStorage implements IStorage {
       ...insertQuestion,
       id,
       author: insertQuestion.author || "Anonymous",
-      status: this.eventSettings.autoApproveQuestions ? "approved" : "pending",
+      status: "approved", // Auto-approve all questions
       likes: 0,
       likedBy: [],
       createdAt: new Date(),
@@ -127,28 +116,6 @@ export class MemStorage implements IStorage {
     return Array.from(this.questions.values())
       .filter(q => q.status === status)
       .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
-  }
-
-  async deleteQuestion(id: string): Promise<boolean> {
-    return this.questions.delete(id);
-  }
-
-  async deleteAllQuestions(): Promise<boolean> {
-    this.questions.clear();
-    return true;
-  }
-
-  async getEventSettings(): Promise<EventSettings> {
-    return this.eventSettings;
-  }
-
-  async updateEventSettings(settings: InsertEventSettings): Promise<EventSettings> {
-    this.eventSettings = {
-      ...this.eventSettings,
-      ...settings,
-      updatedAt: new Date()
-    };
-    return this.eventSettings;
   }
 }
 

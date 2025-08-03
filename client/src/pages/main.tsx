@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Question, EventSettings } from "@shared/schema";
+import { Question } from "@shared/schema";
 import { NetworkBackground } from "@/components/ui/network-background";
 import { QuestionCard } from "@/components/ui/question-card";
 import { QRCodeDisplay } from "@/components/ui/qr-code";
@@ -25,10 +25,6 @@ export default function MainPage() {
     queryKey: ['/api/stats'],
   });
 
-  const { data: settings } = useQuery<EventSettings>({
-    queryKey: ['/api/settings'],
-  });
-
   const mobileUrl = `${window.location.origin}/mobile`;
 
   return (
@@ -44,7 +40,7 @@ export default function MainPage() {
                 <Brain className="text-[var(--cyan-accent)] text-xl" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">{settings?.eventName || "Learn & Build with AI"}</h1>
+                <h1 className="text-xl font-bold">Learn & Build with AI</h1>
                 <p className="text-sm text-gray-300">Live Q&A Session</p>
               </div>
             </div>
@@ -53,11 +49,6 @@ export default function MainPage() {
                 <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
                 <span>{participantCount || stats?.activeUsers || 0} participants</span>
               </div>
-              <Link href="/admin">
-                <Button variant="ghost" size="sm" className="text-[var(--cyan-accent)] hover:bg-[var(--cyan-accent)]/10 p-2">
-                  <Settings className="w-4 h-4" />
-                </Button>
-              </Link>
             </div>
           </div>
         </div>
