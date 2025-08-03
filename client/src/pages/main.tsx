@@ -54,51 +54,47 @@ export default function MainPage() {
         </div>
       </header>
 
-      {/* Main Content - Split Layout */}
-      <div className="relative z-10 flex flex-col h-[calc(100vh-88px)]">
+      {/* Main Content - Two Column Layout */}
+      <div className="relative z-10 flex h-[calc(100vh-88px)]">
         
-        {/* Fixed QR Code Section */}
-        <div className="flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-b border-[var(--cyan-accent)]/20">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-              {/* QR Code Display */}
-              <div className="text-center">
-                <h2 className="text-xl font-bold mb-4">Join the Conversation</h2>
-                <QRCodeDisplay value={mobileUrl} size={160} />
-              </div>
-              
-              {/* Instructions - Detailed */}
-              <div className="flex-1 max-w-md">
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-[var(--dark-teal)] font-bold text-sm">1</span>
-                    </div>
-                    <p className="text-sm">Scan the QR code with your phone camera</p>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-[var(--dark-teal)] font-bold text-sm">2</span>
-                    </div>
-                    <p className="text-sm">Submit your questions</p>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-[var(--dark-teal)] font-bold text-sm">3</span>
-                    </div>
-                    <p className="text-sm">Watch them appear here in real-time</p>
-                  </div>
+        {/* Left Side - Fixed QR Code Section */}
+        <div className="w-1/3 flex-shrink-0 bg-[var(--deep-navy)]/50 backdrop-blur-sm border-r border-[var(--cyan-accent)]/20 p-6 flex flex-col justify-center">
+          <div className="text-center space-y-8">
+            {/* QR Code Display */}
+            <div>
+              <h2 className="text-2xl font-bold mb-6">Join the Conversation</h2>
+              <QRCodeDisplay value={mobileUrl} size={200} />
+            </div>
+            
+            {/* Instructions - Detailed */}
+            <div className="space-y-6">
+              <div className="flex items-start space-x-4">
+                <div className="w-10 h-10 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-[var(--dark-teal)] font-bold">1</span>
                 </div>
+                <p className="text-left">Scan the QR code with your phone camera</p>
+              </div>
+              <div className="flex items-start space-x-4">
+                <div className="w-10 h-10 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-[var(--dark-teal)] font-bold">2</span>
+                </div>
+                <p className="text-left">Submit your questions</p>
+              </div>
+              <div className="flex items-start space-x-4">
+                <div className="w-10 h-10 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-[var(--dark-teal)] font-bold">3</span>
+                </div>
+                <p className="text-left">Watch them appear here in real-time</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Scrollable Questions Section */}
-        <div className="flex-1 overflow-y-auto pb-20">
-          <div className="container mx-auto px-4 py-6">
+        {/* Right Side - Scrollable Questions Section */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold">Live Questions</h2>
+              <h2 className="text-2xl font-semibold">Live Questions</h2>
               <div className="flex items-center space-x-4">
                 <span className="text-sm text-gray-300">{questions.length} questions</span>
                 <Button variant="ghost" size="sm" className="text-[var(--cyan-accent)] hover:text-[var(--light-cyan)]">
