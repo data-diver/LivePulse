@@ -91,14 +91,10 @@ export default function MainPage() {
             <div className="space-y-3 text-sm w-[218px] mx-auto">
               <div className="flex items-center space-x-3">
                 <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">1</span>
-                <span>Scan QR code</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">2</span>
                 <span>Submit questions</span>
               </div>
               <div className="flex items-center space-x-3">
-                <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">3</span>
+                <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">2</span>
                 <span>See live updates</span>
               </div>
             </div>
