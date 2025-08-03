@@ -86,7 +86,6 @@ export default function MainPage() {
             <div className="bg-white p-3 rounded-lg inline-block mb-4">
               <QRCodeDisplay value={mobileUrl} size={160} />
             </div>
-            <p className="text-xs text-gray-400 mb-4">Scan to submit questions</p>
             
             {/* Instructions - Aligned with QR code left margin */}
             <div className="space-y-3 text-sm w-[178px] mx-auto">
