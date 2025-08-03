@@ -49,11 +49,6 @@ export default function MainPage() {
                 <div className={`w-2 h-2 rounded-full pulse-dot ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
                 <span>{stats?.activeUsers || 0} participants</span>
               </div>
-              <Link href="/admin">
-                <Button variant="ghost" size="sm" className="bg-[var(--cyan-accent)]/20 hover:bg-[var(--cyan-accent)]/30">
-                  <Settings className="w-4 h-4" />
-                </Button>
-              </Link>
             </div>
           </div>
         </div>

@@ -34,7 +34,7 @@ export class MemStorage implements IStorage {
       ...insertQuestion,
       id,
       author: insertQuestion.author || "Anonymous",
-      status: "pending",
+      status: "approved", // Auto-approve all questions
       likes: 0,
       createdAt: new Date(),
     };
