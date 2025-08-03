@@ -108,7 +108,7 @@ export function QuestionCard({ question, showAdminControls, onApprove, onReject 
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          {getStatusBadge(question.status)}
+          {getStatusBadge(question.status || "pending")}
           {!showAdminControls && (
             <>
               <Button

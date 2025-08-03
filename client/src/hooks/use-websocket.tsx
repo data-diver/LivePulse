@@ -14,8 +14,13 @@ export function useWebSocket() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    // Clean up the host to remove any query parameters or tokens
+    const cleanHost = window.location.host.split('?')[0].split('#')[0];
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${window.location.host}/ws`;
+    const wsUrl = `${protocol}//${cleanHost}/ws`;
+    
+    console.log('Connecting to WebSocket:', wsUrl);
+    console.log('Original location:', window.location.href);
     
     const connect = () => {
       try {
@@ -24,7 +29,7 @@ export function useWebSocket() {
 
         ws.onopen = () => {
           setIsConnected(true);
-          console.log('WebSocket connected');
+          console.log('WebSocket connected successfully');
         };
 
         ws.onmessage = (event) => {
@@ -68,6 +73,7 @@ export function useWebSocket() {
 
         ws.onerror = (error) => {
           console.error('WebSocket error:', error);
+          console.error('Failed to connect to:', wsUrl);
           setIsConnected(false);
         };
       } catch (error) {

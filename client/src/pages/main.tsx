@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Question } from "@shared/schema";
 import { NetworkBackground } from "@/components/ui/network-background";
 import { QuestionCard } from "@/components/ui/question-card";
-import { QRCode } from "@/components/ui/qr-code";
+import { QRCodeDisplay } from "@/components/ui/qr-code";
 import { Button } from "@/components/ui/button";
 import { useWebSocket } from "@/hooks/use-websocket";
 import { Brain, Settings, RefreshCw, Users } from "lucide-react";
@@ -15,7 +15,13 @@ export default function MainPage() {
     queryKey: ['/api/questions/approved'],
   });
 
-  const { data: stats } = useQuery({
+  const { data: stats } = useQuery<{
+    totalQuestions: number;
+    pendingQuestions: number;
+    approvedQuestions: number;
+    rejectedQuestions: number;
+    activeUsers: number;
+  }>({
     queryKey: ['/api/stats'],
   });
 
@@ -64,7 +70,7 @@ export default function MainPage() {
             
             <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
               {/* QR Code Display */}
-              <QRCode value={mobileUrl} size={192} />
+              <QRCodeDisplay value={mobileUrl} size={192} />
               
               {/* Instructions */}
               <div className="flex-1 max-w-md">

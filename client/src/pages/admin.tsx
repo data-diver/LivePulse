@@ -13,7 +13,13 @@ import { Link } from "wouter";
 export default function AdminPage() {
   const { isConnected } = useWebSocket();
   
-  const { data: stats } = useQuery({
+  const { data: stats } = useQuery<{
+    totalQuestions: number;
+    pendingQuestions: number;
+    approvedQuestions: number;
+    rejectedQuestions: number;
+    activeUsers: number;
+  }>({
     queryKey: ['/api/stats'],
   });
 
