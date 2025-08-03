@@ -25,6 +25,7 @@ export const insertQuestionSchema = createInsertSchema(questions).pick({
 export const eventSettings = pgTable("event_settings", {
   id: serial("id").primaryKey(),
   eventName: varchar("event_name", { length: 255 }).notNull().default("Learn & Build with AI"),
+  autoApproveQuestions: boolean("auto_approve_questions").notNull().default(true),
   updatedAt: timestamp("updated_at").defaultNow().notNull()
 });
 

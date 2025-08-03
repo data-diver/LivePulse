@@ -5,6 +5,7 @@ import { useWebSocket } from "@/hooks/use-websocket";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Trash2, ArrowLeft, Settings, AlertTriangle } from "lucide-react";
@@ -27,6 +28,7 @@ export default function AdminSettings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [eventName, setEventName] = useState("");
+  const [autoApprove, setAutoApprove] = useState(true);
   const { isConnected } = useWebSocket();
 
   // Fetch current event settings
@@ -39,20 +41,21 @@ export default function AdminSettings() {
     queryKey: ['/api/questions'],
   });
 
-  // Update event name mutation
-  const updateEventNameMutation = useMutation({
-    mutationFn: (newEventName: string) => apiRequest('/api/settings', 'PATCH', { eventName: newEventName }),
+  // Update event settings mutation
+  const updateSettingsMutation = useMutation({
+    mutationFn: (settings: { eventName?: string; autoApproveQuestions?: boolean }) => 
+      apiRequest('/api/settings', 'PATCH', settings),
     onSuccess: () => {
       toast({
-        title: "Event name updated",
-        description: "The event name has been successfully changed.",
+        title: "Settings updated",
+        description: "Event settings have been successfully changed.",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/settings'] });
     },
     onError: () => {
       toast({
         title: "Error",
-        description: "Failed to update event name. Please try again.",
+        description: "Failed to update settings. Please try again.",
         variant: "destructive",
       });
     }
@@ -98,8 +101,14 @@ export default function AdminSettings() {
 
   const handleUpdateEventName = () => {
     if (eventName.trim() && eventName !== settings?.eventName) {
-      updateEventNameMutation.mutate(eventName.trim());
+      updateSettingsMutation.mutate({ eventName: eventName.trim() });
     }
+  };
+
+  const handleToggleAutoApprove = () => {
+    const newValue = !autoApprove;
+    setAutoApprove(newValue);
+    updateSettingsMutation.mutate({ autoApproveQuestions: newValue });
   };
 
   const handleDeleteQuestion = (questionId: string) => {
@@ -110,10 +119,11 @@ export default function AdminSettings() {
     deleteAllQuestionsMutation.mutate();
   };
 
-  // Set initial event name when settings load
+  // Set initial values when settings load
   useEffect(() => {
     if (settings && eventName === "") {
       setEventName(settings.eventName);
+      setAutoApprove(settings.autoApproveQuestions);
     }
   }, [settings, eventName]);
 
@@ -163,15 +173,32 @@ export default function AdminSettings() {
                   />
                   <Button 
                     onClick={handleUpdateEventName}
-                    disabled={updateEventNameMutation.isPending || !eventName.trim() || eventName === settings?.eventName}
+                    disabled={updateSettingsMutation.isPending || !eventName.trim() || eventName === settings?.eventName}
                     className="bg-teal-600 hover:bg-teal-700"
                   >
-                    {updateEventNameMutation.isPending ? "Saving..." : "Save"}
+                    {updateSettingsMutation.isPending ? "Saving..." : "Save"}
                   </Button>
                 </div>
                 <p className="text-sm text-white/60">
                   This name will appear on all screens and is used for future events.
                 </p>
+              </div>
+              
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="autoApprove">Auto-approve Questions</Label>
+                    <p className="text-sm text-white/60">
+                      When enabled, new questions are automatically approved. When disabled, questions require manual approval.
+                    </p>
+                  </div>
+                  <Switch
+                    id="autoApprove"
+                    checked={autoApprove}
+                    onCheckedChange={handleToggleAutoApprove}
+                    disabled={updateSettingsMutation.isPending}
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>

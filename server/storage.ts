@@ -30,6 +30,7 @@ export class MemStorage implements IStorage {
     this.eventSettings = {
       id: 1,
       eventName: "Learn & Build with AI",
+      autoApproveQuestions: true,
       updatedAt: new Date()
     };
   }
@@ -74,7 +75,7 @@ export class MemStorage implements IStorage {
       ...insertQuestion,
       id,
       author: insertQuestion.author || "Anonymous",
-      status: "approved", // Auto-approve all questions
+      status: this.eventSettings.autoApproveQuestions ? "approved" : "pending",
       likes: 0,
       likedBy: [],
       createdAt: new Date(),
