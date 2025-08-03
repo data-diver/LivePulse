@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Question } from "@shared/schema";
+import { useUserId } from "./use-user-id";
 
 interface WebSocketMessage {
   type: 'new_question' | 'question_status_updated' | 'question_liked';
@@ -12,6 +13,7 @@ export function useWebSocket() {
   const [participantCount, setParticipantCount] = useState(0);
   const wsRef = useRef<WebSocket | null>(null);
   const queryClient = useQueryClient();
+  const userId = useUserId();
 
   useEffect(() => {
     // Clean up the host to remove any query parameters or tokens
@@ -30,6 +32,12 @@ export function useWebSocket() {
         ws.onopen = () => {
           setIsConnected(true);
           console.log('WebSocket connected successfully');
+          
+          // Send user identification to server
+          ws.send(JSON.stringify({
+            type: 'identify',
+            userId: userId
+          }));
         };
 
         ws.onmessage = (event) => {
@@ -91,7 +99,7 @@ export function useWebSocket() {
         wsRef.current.close();
       }
     };
-  }, [queryClient]);
+  }, [queryClient, userId]);
 
   return {
     isConnected,

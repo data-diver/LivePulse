@@ -11,15 +11,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // WebSocket server for real-time updates
   const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
   
-  // Store connected clients
+  // Store connected clients with user tracking
   const clients = new Set<WebSocket>();
+  const userConnections = new Map<string, Set<WebSocket>>(); // userId -> Set of WebSocket connections
   
   wss.on('connection', (ws) => {
     clients.add(ws);
     console.log('Client connected. Total clients:', clients.size);
     
+    // Handle messages from client (including user identification)
+    ws.on('message', (data) => {
+      try {
+        const message = JSON.parse(data.toString());
+        if (message.type === 'identify' && message.userId) {
+          // Track this user
+          storage.trackUser(message.userId);
+          
+          // Associate this WebSocket with the user
+          if (!userConnections.has(message.userId)) {
+            userConnections.set(message.userId, new Set());
+          }
+          userConnections.get(message.userId)!.add(ws);
+          
+          console.log(`User ${message.userId} identified. Unique participants: ${storage.getUniqueParticipantCount()}`);
+        }
+      } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
+      }
+    });
+    
     ws.on('close', () => {
       clients.delete(ws);
+      
+      // Remove this WebSocket from user connections
+      userConnections.forEach((userWs, userId) => {
+        if (userWs.has(ws)) {
+          userWs.delete(ws);
+          if (userWs.size === 0) {
+            userConnections.delete(userId);
+          }
+        }
+      });
+      
       console.log('Client disconnected. Total clients:', clients.size);
     });
     
