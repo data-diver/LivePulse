@@ -363,7 +363,7 @@ export default function AdminPage() {
                       value={eventName}
                       onChange={(e) => setEventName(e.target.value)}
                       placeholder="Enter event name"
-                      className="bg-[var(--dark-teal)]/50 border-[var(--cyan-accent)]/30 text-white placeholder:text-white/60"
+                      className="bg-[var(--deep-navy)]/80 border-[var(--cyan-accent)]/30 text-white placeholder:text-gray-400 focus:bg-[var(--deep-navy)] focus:border-[var(--cyan-accent)]"
                     />
                     <Button 
                       onClick={handleUpdateEventName}
