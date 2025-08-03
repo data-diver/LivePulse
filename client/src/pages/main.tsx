@@ -107,15 +107,6 @@ export default function MainPage() {
                 </Button>
               </div>
             </div>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold">Live Questions</h2>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-300">{questions.length} questions</span>
-              <Button variant="ghost" size="sm" className="text-[var(--cyan-accent)] hover:text-[var(--light-cyan)]">
-                <RefreshCw className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
 
             {isLoading ? (
               <div className="space-y-4">
