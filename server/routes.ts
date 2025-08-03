@@ -73,6 +73,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/questions", async (req, res) => {
     try {
       const validatedData = insertQuestionSchema.parse(req.body);
+      
+      // Track user activity (using a simple user ID from client)
+      const userId = req.headers['x-user-id'] as string || 'anonymous';
+      storage.trackUser(userId);
       const question = await storage.createQuestion(validatedData);
       
       // Broadcast new question to all clients
@@ -128,6 +132,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "User ID is required" });
       }
       
+      // Track user activity
+      storage.trackUser(userId);
+      
       const question = await storage.likeQuestion(id, userId);
       
       if (!question) {
@@ -159,7 +166,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         pendingQuestions: pending,
         approvedQuestions: approved,
         rejectedQuestions: rejected,
-        activeUsers: clients.size
+        activeUsers: storage.getUniqueParticipantCount()
       });
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch stats" });

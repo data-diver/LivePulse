@@ -8,14 +8,26 @@ export interface IStorage {
   updateQuestionStatus(id: string, status: "pending" | "approved" | "rejected"): Promise<Question | undefined>;
   likeQuestion(id: string, userId: string): Promise<Question | undefined>;
   getQuestionsByStatus(status: "pending" | "approved" | "rejected"): Promise<Question[]>;
+  trackUser(userId: string): void;
+  getUniqueParticipantCount(): number;
 }
 
 export class MemStorage implements IStorage {
   private questions: Map<string, Question>;
+  private activeUsers: Set<string> = new Set(); // Track unique user IDs
   private nextId: number = 1;
 
   constructor() {
     this.questions = new Map();
+  }
+
+  // Track unique user activity
+  trackUser(userId: string): void {
+    this.activeUsers.add(userId);
+  }
+
+  getUniqueParticipantCount(): number {
+    return this.activeUsers.size;
   }
 
   async getQuestions(): Promise<Question[]> {
