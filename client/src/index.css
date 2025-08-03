@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(182, 100%, 42%);
+  --primary-foreground: hsl(195, 100%, 11%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Custom variables for the event theme */
+  --dark-teal: hsl(195, 37%, 16%);
+  --deep-navy: hsl(212, 29%, 8%);
+  --cyan-accent: hsl(180, 100%, 42%);
+  --light-cyan: hsl(180, 60%, 60%);
+}
+
+.dark {
+  --background: hsl(195, 37%, 16%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(195, 20%, 12%);
+  --muted-foreground: hsl(195, 10%, 55%);
+  --popover: hsl(195, 37%, 16%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(195, 37%, 16%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(195, 20%, 25%);
+  --input: hsl(195, 20%, 25%);
+  --primary: hsl(180, 100%, 42%);
+  --primary-foreground: hsl(195, 100%, 11%);
+  --secondary: hsl(195, 20%, 12%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(195, 20%, 12%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(195, 20%, 75%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-[var(--dark-teal)] text-white;
+  }
+}
+
+/* Network pattern background */
+.network-pattern {
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(0, 212, 212, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, rgba(0, 212, 212, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 40% 80%, rgba(0, 212, 212, 0.05) 1px, transparent 1px);
+  background-size: 100px 100px, 150px 150px, 80px 80px;
+}
+
+.network-lines {
+  background-image: 
+    linear-gradient(45deg, rgba(0, 212, 212, 0.1) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(0, 212, 212, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Question card animation */
+.question-card {
+  animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse animation for status indicators */
+.pulse-dot {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--deep-navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cyan-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--light-cyan);
+}
