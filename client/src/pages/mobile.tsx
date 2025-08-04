@@ -52,7 +52,7 @@ export default function MobilePage() {
     onError: () => {
       toast({
         title: "Error",
-        description: "Failed to submit question. Please try again.",
+        description: "Failed to submit response. Please try again.",
         variant: "destructive",
       });
     },
@@ -78,9 +78,9 @@ export default function MobilePage() {
               <CheckCircle className="w-8 h-8 text-green-400" />
             </div>
             
-            <h2 className="text-2xl font-bold mb-4">Question Posted!</h2>
+            <h2 className="text-2xl font-bold mb-4">Response Shared!</h2>
             <p className="text-gray-300 mb-6">
-              Your question is now live and visible to everyone! You can view and like other questions or submit another one.
+              Your response is now live and visible to everyone! You can view and like other responses or share another one.
             </p>
             
             <div className="space-y-3">
@@ -91,14 +91,14 @@ export default function MobilePage() {
                 }}
                 className="w-full bg-[var(--cyan-accent)] hover:bg-[var(--light-cyan)] text-[var(--dark-teal)] font-semibold"
               >
-                View All Questions
+                View All Responses
               </Button>
               <Button 
                 onClick={submitAnother}
                 variant="outline"
                 className="w-full border-[var(--cyan-accent)] text-[var(--cyan-accent)] hover:bg-[var(--cyan-accent)] hover:text-[var(--dark-teal)]"
               >
-                Submit Another Question
+                Share Another Response
               </Button>
             </div>
           </div>
@@ -149,7 +149,7 @@ export default function MobilePage() {
               }`}
             >
               <Send className="w-4 h-4 inline mr-2" />
-              Submit Question
+              Share Your Thoughts
             </button>
             <button
               onClick={() => setActiveTab('questions')}
@@ -160,7 +160,7 @@ export default function MobilePage() {
               }`}
             >
               <MessageSquare className="w-4 h-4 inline mr-2" />
-              All Questions ({questions.length})
+              All Responses ({questions.length})
             </button>
           </div>
         </div>
@@ -170,7 +170,7 @@ export default function MobilePage() {
       <main className="relative z-10 container mx-auto px-4 py-6 pt-4">
         {activeTab === 'submit' ? (
           <div className="bg-[var(--deep-navy)]/50 backdrop-blur-sm rounded-2xl p-6 border border-[var(--cyan-accent)]/20 max-w-2xl mx-auto">
-            <h3 className="text-lg font-semibold mb-6">Ask your questions</h3>
+            <h3 className="text-lg font-semibold mb-6">What's on your mind?</h3>
             
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -197,12 +197,12 @@ export default function MobilePage() {
                   name="content"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Your Question</FormLabel>
+                      <FormLabel>Your Thoughts</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
                           rows={4}
-                          placeholder="What would you like to know?"
+                          placeholder="Share what's on your mind..."
                           className="bg-[var(--dark-teal)] border-[var(--cyan-accent)]/30 text-white placeholder-gray-400 focus:border-[var(--cyan-accent)] resize-none"
                         />
                       </FormControl>
@@ -224,7 +224,7 @@ export default function MobilePage() {
                   ) : (
                     <>
                       <Send className="w-4 h-4 mr-2" />
-                      Post Question
+                      Share Response
                     </>
                   )}
                 </Button>

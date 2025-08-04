@@ -95,7 +95,7 @@ export default function MainPage() {
               </div>
               <div className="flex items-center space-x-3">
                 <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">2</span>
-                <span>Submit questions</span>
+                <span>Share what's on your mind</span>
               </div>
               <div className="flex items-center space-x-3">
                 <span className="w-7 h-7 bg-[var(--cyan-accent)] rounded-full flex items-center justify-center text-[var(--dark-teal)] font-bold text-sm flex-shrink-0">3</span>
@@ -109,9 +109,9 @@ export default function MainPage() {
         <div className="flex-1 overflow-y-auto">
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold">Live Questions</h2>
+              <h2 className="text-2xl font-semibold">Live Responses</h2>
               <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-300">{questions.length} questions</span>
+                <span className="text-sm text-gray-300">{questions.length} responses</span>
               </div>
             </div>
 
@@ -138,8 +138,8 @@ export default function MainPage() {
                 <div className="w-16 h-16 bg-[var(--cyan-accent)]/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-8 h-8 text-[var(--cyan-accent)]" />
                 </div>
-                <h3 className="text-lg font-medium mb-2">No questions yet</h3>
-                <p className="text-gray-400">Questions will appear here once participants start submitting them.</p>
+                <h3 className="text-lg font-medium mb-2">No responses yet</h3>
+                <p className="text-gray-400">Responses will appear here once participants start sharing their thoughts.</p>
               </div>
             ) : (
               <div className="space-y-4">

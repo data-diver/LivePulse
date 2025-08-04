@@ -103,15 +103,15 @@ export function EventSettingsDialog({ children }: EventSettingsDialogProps) {
       queryClient.invalidateQueries({ queryKey: ['/api/questions/pending'] });
       queryClient.invalidateQueries({ queryKey: ['/api/stats'] });
       toast({
-        title: "Questions cleared",
-        description: "All questions have been successfully cleared.",
+        title: "Responses cleared",
+        description: "All responses have been successfully cleared.",
       });
     },
     onError: (error) => {
       console.error('Failed to clear questions:', error);
       toast({
         title: "Error",
-        description: "Failed to clear questions. Please try again.",
+        description: "Failed to clear responses. Please try again.",
         variant: "destructive",
       });
     },
@@ -184,8 +184,8 @@ export function EventSettingsDialog({ children }: EventSettingsDialogProps) {
             <div className="pt-4 border-t border-[var(--cyan-accent)]/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-300">Clear Questions</h4>
-                  <p className="text-xs text-gray-400">Remove all questions for a new event</p>
+                  <h4 className="text-sm font-medium text-gray-300">Clear Responses</h4>
+                  <p className="text-xs text-gray-400">Remove all responses for a new event</p>
                 </div>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
@@ -205,10 +205,10 @@ export function EventSettingsDialog({ children }: EventSettingsDialogProps) {
                     <AlertDialogHeader>
                       <AlertDialogTitle className="flex items-center gap-2 text-red-400">
                         <AlertTriangle className="w-5 h-5" />
-                        Clear All Questions
+                        Clear All Responses
                       </AlertDialogTitle>
                       <AlertDialogDescription className="text-gray-300">
-                        This action cannot be undone. All questions (pending, approved, and rejected) will be permanently deleted.
+                        This action cannot be undone. All responses (pending, approved, and rejected) will be permanently deleted.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -220,7 +220,7 @@ export function EventSettingsDialog({ children }: EventSettingsDialogProps) {
                         className="bg-red-600 text-white hover:bg-red-700"
                         data-testid="button-confirm-clear"
                       >
-                        Clear All Questions
+                        Clear All Responses
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>

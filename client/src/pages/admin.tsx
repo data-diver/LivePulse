@@ -61,7 +61,7 @@ export default function AdminPage() {
                 <div>
                   <h1 className="text-xl font-bold">Admin Panel</h1>
                   <p className="text-sm text-gray-300" data-testid="text-event-title-admin">
-                    {eventSettings?.title || "Learn & Build with AI"} - Question Management
+                    {eventSettings?.title || "Learn & Build with AI"} - Response Management
                   </p>
                 </div>
               </div>
@@ -94,7 +94,7 @@ export default function AdminPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <Card className="bg-[var(--dark-teal)] border-[var(--cyan-accent)]/20">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-300">Total Questions</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-300">Total Responses</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-[var(--cyan-accent)]">
@@ -137,7 +137,7 @@ export default function AdminPage() {
           </Card>
         </div>
 
-        {/* Question Management Tabs */}
+        {/* Response Management Tabs */}
         <Tabs defaultValue="pending" className="space-y-4">
           <TabsList className="bg-[var(--deep-navy)]/50 border border-[var(--cyan-accent)]/20">
             <TabsTrigger 
@@ -177,8 +177,8 @@ export default function AdminPage() {
                 <div className="w-16 h-16 bg-[var(--cyan-accent)]/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Clock className="w-8 h-8 text-[var(--cyan-accent)]" />
                 </div>
-                <h3 className="text-lg font-medium mb-2">No pending questions</h3>
-                <p className="text-gray-400">All questions have been reviewed.</p>
+                <h3 className="text-lg font-medium mb-2">No pending responses</h3>
+                <p className="text-gray-400">All responses have been reviewed.</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -207,8 +207,8 @@ export default function AdminPage() {
                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="w-8 h-8 text-green-400" />
                 </div>
-                <h3 className="text-lg font-medium mb-2">No approved questions yet</h3>
-                <p className="text-gray-400">Approved questions will appear here.</p>
+                <h3 className="text-lg font-medium mb-2">No approved responses yet</h3>
+                <p className="text-gray-400">Approved responses will appear here.</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -233,8 +233,8 @@ export default function AdminPage() {
                 <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <X className="w-8 h-8 text-red-400" />
                 </div>
-                <h3 className="text-lg font-medium mb-2">No rejected questions</h3>
-                <p className="text-gray-400">Rejected questions will appear here.</p>
+                <h3 className="text-lg font-medium mb-2">No rejected responses</h3>
+                <p className="text-gray-400">Rejected responses will appear here.</p>
               </div>
             ) : (
               <div className="space-y-4">
